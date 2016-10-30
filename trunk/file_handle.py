@@ -1,4 +1,3 @@
-#file handle
 import tempfile,os
 
 def create_file(code):

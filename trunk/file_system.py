@@ -1,5 +1,9 @@
 #works for windows 10 probably all windows
-
+'''
+>>> import os
+>>> os.__file__
+'C:\\python27\\lib\\os.pyc'
+'''
 import os,re
 
 def find_drives():
