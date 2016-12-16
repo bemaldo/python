@@ -1,5 +1,6 @@
 import socket
 import sys
+from time import time
 
 def runclient():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -10,6 +11,7 @@ def runclient():
     sock.connect(server_address)
 	
     try:
+	sendTime = time()
 	#send data
 	message = "This is the message.  It will be repeated."
 	sock.sendall(message)
@@ -27,6 +29,8 @@ def runclient():
     finally:
 	print('closing socket')
 	sock.close()
+	return float(data)-sendTime
 	
 if __name__ == '__main__':
-	runclient()
+	delay = runclient()
+	print(delay)
