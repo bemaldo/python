@@ -91,6 +91,54 @@ def recvHandle(connection, address):
       mvh = Thread(target = broadcastMessage, args=(data,connection, address[0]))
       mvh.start()
   connection.close()
+     
+    
+def invalidNameChange(message, sender, ip):
+    print('Reporting name selection already exists.')
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_address = (ip, 8888)
+    s.connect(server_address)
+    s.sendall('[*] NameError: The name "' + message + '" is already in use.')
+    
+def notifyEntry(message, sender, ip):
+  print('broadcasting entry...')
+  ip_cursor = 0
+  for connection in CLIENTS:
+      if connection == sender:
+          pass
+      else:
+          try:
+            print('sending to ' + ip + ':8888')
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            print('sent to other...')
+            server_address = ((CLIENT_IPS[ip_cursors], 8888))
+            s.connect(server_address)
+            s.sendall('[*]'  + message)
+          finally:
+            s.close()
+      ip_cursor += 1
       
-      
+def answerGetClientsCommand():
+  pass
+
+def answerOnlineCommand(message, sender, ip):
+  try:
+    message = list()
+    for clnt in CLIENT_IPS:
+      if not(clnt == ip):
+        message.append(CLIENT_NAMES[clnt])
+    if len(message) == 0:
+      message = 'No Users online.'
+    else:
+      message = ','.join(message)
+      message = 'Users Online: ' + message
+    
+    print('Replying online command to ' + ip + ':8888')
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_address = (ip, 8888)
+    s.connect(server_address)
+    s.sendall('[*]' + message)
+    print('Replied command')
+  finally:
+    s.close()
     
