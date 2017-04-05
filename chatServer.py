@@ -142,3 +142,32 @@ def answerOnlineCommand(message, sender, ip):
   finally:
     s.close()
     
+def boradcastMessage(message, sender, ip, nameChange = False):
+  print('broadcasting message.')
+  ip_cursor = 0
+  
+  for connection in CLIENTS:
+    if connection == sender:
+      pass
+    else:
+      try:
+        print('sending to ' + ip + ':8888')
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print('sent to other...')
+        server_address = ((CLIENT_IPS[ip_cursor], 8888))
+        s.connect(server_address)
+        if nameChange:
+          s.sendall('[*]' + message)
+        else:
+          if message == 'Left the chat.':
+            s.sendall('[*]' + CLIENT_NAMES[ip] + message)
+            del CLIENT_NAMES[ip]
+          else:
+            s.sendall(CLIENT_NAMES[ip] + ': ' + message)
+      finally:
+        s.close()
+    ip_cursor+=1
+    
+if __name__ == '__main__':
+  server()
+        
