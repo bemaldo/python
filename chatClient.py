@@ -94,4 +94,27 @@ def client(name):
     os.kill(os.getpid(), signal.SIGTERM)
     
 def processEmoji(string):
-  f
+  for key in EMOJIS:
+    if key in string:
+      string = string.replace(key, EMOJIS[key])
+  return string
+
+def initEmojis(): # add emojis here
+  EOMJIS[':D'] = u'\U0001F600'
+  EOMJIS['|D'] = u'\U0001F601'
+  EOMJIS['%D'] = u'\U0001F602'
+  EOMJIS['8D'] = u'\U0001F603'
+  EOMJIS['|D'] = u'\U0001F604'
+  EOMJIS['XD'] = u'\U0001F605'
+  EOMJIS['xD'] = u'\U0001F606'
+  EOMJIS[':p'] = u'\U0001F607'
+  EOMJIS[':('] = u'\U0001F608'
+
+if __name__ == '__main__':
+  initEmojis()
+  serve = Thread(target=server, args=[])
+  serve.start()
+  name = raw_input('Enter your name: ')
+  sleep(2)
+  clnt = Thread(target=client, args=(name,))
+  clnt.start()
