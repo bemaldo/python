@@ -86,6 +86,7 @@ def getWords(data):
 			
 			# removing ending punctuation
 			word = word.strip(',')
+			word = word.strip(':')
 			word = word.strip(';')
 			word = word.strip('.')
 			word = word.strip('?')
