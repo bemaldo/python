@@ -5,7 +5,10 @@ class BankAccount:
     self.balance = balance
     self.acctNumber = acctNumber
   def __del__(self):
-    os.remove(str(self.account) + '.txt')
+    try:
+      os.remove(str(self.acctnumber) + '.txt')
+    except:
+      print('This account does not ahve any history to be deleted.')
     print('Account Number ' + str(self.acctNumber) + ' is now closed.')
   def __str__(self):
     return ("Account Number: " + str(self.acctNumber) + '\n'
@@ -39,10 +42,17 @@ class BankAccount:
     return self.balance + account.balance
   # probably part of Bank application side of the project
   def sort(self, accounts): # sor the array by name
-    pass
-  def history(self, event):
-    hist = str(self.account)
-    with open(hist + '.txt', 'a') as f:
-      f.write(event + ':') # to do write details of what the account did (i.e. balance, withdrawl, etc.)
+    return accounts.sort(key=lambda account: account.name)
+  def history(self, event, amount = None):
+    hist = str(self.acctNumber)
+    if not(event == ''):
+      with open(hist + '.txt', 'a') as f:
+        f.write(event + ':') # to do write details of what the account did (i.e. balance, withdrawl, etc.)
     
-    
+    else:
+        try:
+          with open(hist + '.txt', 'a') as f:
+            data = f.read()
+            reutrn data
+        except:
+          print('There is no history associated with this account.')
